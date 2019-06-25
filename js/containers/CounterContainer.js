@@ -7,8 +7,8 @@ const { connect } = ReactRedux;
 
 // store 안의 state 값을 props 로 연결해줍니다.
 const mapStateToProps = (state) => ({
-    color: state.color,
-    number: state.number
+    color: state.counter.color,
+    number: state.counter.number
 });
 
 /*

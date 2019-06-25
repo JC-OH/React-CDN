@@ -15,7 +15,8 @@ import * as types from './js/actions/ActionTypes.js';
 //     type: types.DECREMENT
 // });
 
-export const increment = function(diff = 1) {
+// INCREMENT: 카운터의 값을 올린다
+export const increment = function(diff) {
     return {
         type: types.INCREMENT,
         addBy: diff
@@ -23,8 +24,17 @@ export const increment = function(diff = 1) {
     }
 }
 
+// DECREMENT: 카운터의 값을 낮춘다
 export const decrement = function() {
     return {
         type: types.DECREMENT
+    }
+}
+
+// SET_DIFF: 버튼이 눌릴 때 더하거나 뺄 값을 설정한다
+export function setDiff(value) {
+    return {
+        type: types.SET_DIFF,
+        diff: value
     }
 }

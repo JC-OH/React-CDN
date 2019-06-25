@@ -70,8 +70,11 @@
 <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="./js/components/Assignment.js"></script>
 <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="./js/components/ControlBox.js"></script>
 <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="./js/components/Counter.js"></script>
+<script data-plugins="transform-es2015-modules-umd, transform-class-properties" type="text/babel" src="./js/components/CounterButton.js"></script>
+<script data-plugins="transform-es2015-modules-umd, transform-class-properties" type="text/babel" src="./js/components/CounterOption.js"></script>
 
 <script data-plugins="transform-es2015-modules-umd,transform-es2015-arrow-functions" type="text/babel" src="./js/containers/CounterContainer.js"></script>
+<script data-plugins="transform-es2015-modules-umd,transform-es2015-arrow-functions" type="text/babel" src="./js/containers/CounterButtonContainer.js"></script>
 
 
 
@@ -86,7 +89,9 @@
 	import ContactInformation from './js/components/ContactInformation.js';
 	import ControlBox from './js/components/ControlBox.js';
 	import QuickMenus from './js/components/QuickMenus.js';
+	import CounterOption from './js/containers/CounterOption.js';
 	import CounterContainer from './js/containers/CounterContainer.js';
+	import CounterButtonContainer from './js/containers/CounterButtonContainer.js';
 
 
     import * as actions from './js/actions/ActionMethods.js';
@@ -144,6 +149,8 @@
 				<ContactInformation/>
 				<BasicLoanInformation/>
 				<CounterContainer/>
+				<CounterOption/>
+                <CounterButtonContainer/>
 			</div>
 			<div  style={styleRight}>
 				<ControlBox/>
@@ -167,10 +174,17 @@
         constructor(props) {
             super(props);
             this.onClick = this.onClick.bind(this);
+            this.state = {
+                number: this.props.store.getState().counter.number
+            }
         }
 
         onClick() {
             this.props.store.dispatch(actions.increment(2));
+
+            this.setState({
+              number: this.props.store.getState().counter.number
+            });
         }
 
         render() {
@@ -186,7 +200,7 @@
                     onClick = {this.onClick}
                     style={centerStyle}
                 >
-                    {this.props.store.getState().number}
+                    {this.state.number}
                 </div>
             )
         }
@@ -200,13 +214,16 @@
 
 
 	ReactDOM.render(<Root/>, document.getElementById('root'));
+    ReactDOM.render(<Menu store={store}/>, document.getElementById('menu'));
 
-
+    /*
 	const render = () => {
 	    ReactDOM.render(<Menu store={store}/>, document.getElementById('menu'));
     };
+
 	store.subscribe(render);
     render();
+    */
 
 </script>
 
