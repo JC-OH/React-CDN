@@ -8,7 +8,7 @@ const initialState = {
 	
 function counter(state = initialState, action) {
     switch (action.type) {
-        case types.INCREMENT: 
+        case types.INCREMENT:
             return {
                 ...state,
                 number: state.number + 1

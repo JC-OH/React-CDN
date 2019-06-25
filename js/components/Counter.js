@@ -11,9 +11,8 @@ const Counter = ({number, color, onIncrement, onDecrement}) => {
                     onDecrement();
                 }
             } 
-            onDoubleClick={onSetColor}
             style={{backgroundColor: color}}>
-                {number}
+               {number}
         </div>
     );
 };
@@ -27,7 +26,7 @@ Counter.propTypes = {
 
 Counter.defaultProps = {
     number: 0,
-    color: 'black',
+	color: 'black',
     onIncrement: () => console.warn('onIncrement not defined'),
     onDecrement: () => console.warn('onDecrement not defined')
 };

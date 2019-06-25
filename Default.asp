@@ -23,7 +23,25 @@
 	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
 	<link rel="stylesheet" href="https://unpkg.com/react-datetime@2.16.3/css/react-datetime.css" crossorigin="anonymous"/>
-	
+	<style>
+	.Counter {
+        width: 10rem;
+        height: 10rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem;
+
+        color: white;
+
+        font-size: 3rem;
+
+        border-radius: 100%;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.75s;
+    }
+	</style>
 	<title></title>
 </head>
 
@@ -43,6 +61,9 @@
 </table>
 
 <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="./js/actions/ActionTypes.js"></script>
+<script data-plugins="transform-es2015-modules-umd,transform-es2015-arrow-functions" type="text/babel" src="./js/actions/ActionMethods.js"></script>
+<script data-plugins="transform-es2015-modules-umd,transform-es2015-destructuring,transform-object-rest-spread" type="text/babel" src="./js/reducers/index.js"></script>
+
 <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="./js/components/QuickMenus.js"></script>
 <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="./js/components/ContactInformation.js"></script>
 <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="./js/components/DatetimeStamp.js"></script>
@@ -50,17 +71,26 @@
 <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="./js/components/ControlBox.js"></script>
 <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="./js/components/Counter.js"></script>
 
+<script data-plugins="transform-es2015-modules-umd,transform-es2015-arrow-functions" type="text/babel" src="./js/containers/CounterContainer.js"></script>
+
 
 
 <script data-plugins="transform-es2015-modules-umd" type="text/babel">
 	const { BrowserRouter, Route, Link, Switch } = ReactRouterDOM;
-	import * as types from './ActionTypes';
+	const { createStore } = Redux;
+	const { Provider } = ReactRedux;
+
+	import reducers from './js/reducers/index.js';
+
 	import ContactInformation from './js/components/ContactInformation.js';
 	import ControlBox from './js/components/ControlBox.js';
 	import QuickMenus from './js/components/QuickMenus.js';
+	import CounterContainer from './js/containers/CounterContainer.js';
 
 
 	//var { Alert, FormGroup, ControlLabel, HelpBlock } = Reactstrap;
+    // 스토어 생성
+    const store = createStore(reducers);
 
 	const BasicLoanInformation = () => (
 		<div>
@@ -98,7 +128,8 @@
 		}
 
 		return (
-		<div>
+		<BrowserRouter>
+
 			<QuickMenus/>
 			
             <ul>
@@ -109,23 +140,24 @@
 			<div style={styleLeft}>
 				<ContactInformation/>
 				<BasicLoanInformation/>
+				<CounterContainer/>
 			</div>
 			<div  style={styleRight}>
 				<ControlBox/>
 			</div>
 
-			
+
 			<Route exact path="/home" component={Home}/>
 			<Route path="/about" component={About}/>
 			
-		</div>
+		</BrowserRouter>
 		)
 	}
 
 	const Root = () => (
-		<BrowserRouter>
-			<App/>
-		</BrowserRouter>
+	    <Provider store={store}>
+	        <App/>
+        </Provider>
 	)
 
 	const Menu = () => (
