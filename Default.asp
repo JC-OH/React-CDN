@@ -76,6 +76,7 @@
 
 
 <script data-plugins="transform-es2015-modules-umd" type="text/babel">
+	const { Component  } = React;
 	const { BrowserRouter, Route, Link, Switch } = ReactRouterDOM;
 	const { createStore } = Redux;
 	const { Provider } = ReactRedux;
@@ -87,6 +88,8 @@
 	import QuickMenus from './js/components/QuickMenus.js';
 	import CounterContainer from './js/containers/CounterContainer.js';
 
+
+    import * as actions from './js/actions/ActionMethods.js';
 
 	//var { Alert, FormGroup, ControlLabel, HelpBlock } = Reactstrap;
     // 스토어 생성
@@ -146,7 +149,6 @@
 				<ControlBox/>
 			</div>
 
-
 			<Route exact path="/home" component={Home}/>
 			<Route path="/about" component={About}/>
 			
@@ -160,15 +162,51 @@
         </Provider>
 	)
 
-	const Menu = () => (
+
+	class CounterCtrl extends Component{ // React.Component
+        constructor(props) {
+            super(props);
+            this.onClick = this.onClick.bind(this);
+        }
+
+        onClick() {
+            this.props.store.dispatch(actions.increment(2));
+        }
+
+        render() {
+            let centerStyle = {
+                WebkitUserSelect: 'none',
+                MozUserSelect: 'none',
+                MsUserSelect:'none',
+                userSelect: 'none',
+                cursor: 'pointer'
+            };
+            return (
+                <div
+                    onClick = {this.onClick}
+                    style={centerStyle}
+                >
+                    {this.props.store.getState().number}
+                </div>
+            )
+        }
+	}
+
+	const Menu = (props) => (
 		<div>
-			Menu
+			<CounterCtrl store={props.store}/>
 		</div>
-	)
+	);
+
 
 	ReactDOM.render(<Root/>, document.getElementById('root'));
-	
-	ReactDOM.render(<Menu/>, document.getElementById('menu'));
+
+
+	const render = () => {
+	    ReactDOM.render(<Menu store={store}/>, document.getElementById('menu'));
+    };
+	store.subscribe(render);
+    render();
 
 </script>
 

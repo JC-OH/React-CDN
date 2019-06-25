@@ -15,9 +15,11 @@ import * as types from './js/actions/ActionTypes.js';
 //     type: types.DECREMENT
 // });
 
-export const increment = function() {
+export const increment = function(diff = 1) {
     return {
-        type: types.INCREMENT
+        type: types.INCREMENT,
+        addBy: diff
+
     }
 }
 
